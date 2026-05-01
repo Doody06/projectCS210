@@ -12,54 +12,51 @@ public class Solution {
 
         while (true) {
             try {
+                System.out.println("Enter a command from 1 to 7:");
                 int command = sc.nextInt();
-
                 switch (command) {
 
-                    //<filename>  
+                    //<filename> Bulk Load Tasks
                     case 1:
                         String filename = sc.next();
                         loadTasksFromFile(filename, system); //This method loads tasks AND calls addTask for each one of them.
-                        break;
+                        continue;
 
                     //Process Next Task
                     case 2:
                         system.processNextTask();
-                        break;
-
+                        continue;
                     //Emergency Undo
                     case 3:
                         system.undoLastAction();
-                        break;
-
+                        continue;
                     //System Audit
                     case 4:
                         system.systemAudit();
-                        break;
-
+                        continue;
                     //View History
                     case 5:
                         system.printDeploymentHistory();
-                        break;
-
-                    //<sectorID> → Search Sector
+                        continue;
+                    //<sectorID> Search Sector
                     case 6:
                         int sectorID = sc.nextInt();
                         system.searchSector(sectorID);
-                        break;
-
+                        continue;
+                    case 7:
+                        System.out.println("Exiting...");
+                        sc.close();
+                        return;
                     default:
                         System.out.println("Invalid command.");
+                        continue;
 
                 }
 
             } catch (Exception e) {
                 System.out.println("Error reading input.");
-                break;
             }
         }
-
-        sc.close();
     }
 
     private static void loadTasksFromFile(String filename, NEOM_Core system) {

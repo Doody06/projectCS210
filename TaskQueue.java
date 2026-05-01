@@ -39,6 +39,7 @@ public class TaskQueue {
         }
         return removedNode;
     }
+    
     public TaskNode peek(){
         if (isEmpty()) {
             return null;

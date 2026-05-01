@@ -2,7 +2,7 @@ We want to handle exceptions only where they are actually needed (such as file r
 
 We want to use OOP whenever it is possible and keep classes small, simple, and focused on a single responsibility.
 
-We want to avoid using the Java Collections Framework completely and implement all required data structures manually from scratch.
+We MUST avoid using the Java Collections Framework completely and implement all required data structures manually from scratch.
 
 We want to strictly follow the required class names, attributes, and method signatures without modifying the given API.
 
@@ -18,7 +18,7 @@ We want every operation to correctly update all related data structures to maint
 
 We want the undo operation to fully and correctly reverse the last action without leaving partial changes.
 
-We want to keep methods short, clear, and easy to debug instead of writing large, complex blocks of code.
+We want to keep methods short, clear, and easy to debug instead of writing large, complex blocks of code. (except AVL...)
 
 We want to use clear and meaningful names for variables, methods, and classes to make the code easier to understand and explain.
 

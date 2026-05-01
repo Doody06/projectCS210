@@ -12,6 +12,7 @@ public class SList {
     public int size() {
         return this.size;
     }
+    //I think we can change its name to "Insert"
     public void addLast(TaskNode newNode) {
      if (newNode == null) {
             return;
@@ -76,5 +77,13 @@ public class SList {
             System.out.println(current);
             current = current.next;
         }
+    }
+
+    public TaskNode completeTask(String taskID) {
+        TaskNode task = search(taskID);
+        if (task != null) {
+            task.status = "Completed";
+        }
+        return task;
     }
 }

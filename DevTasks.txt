@@ -2,7 +2,7 @@ A suggestion I had
 (If you want to switch some tasks just tell me)
 
 Abdelrahman:
-AVL tree (We MUST add an extra method that turns tasks to complete) 100% done
+AVL tree (We MUST add an extra method that turns tasks to complete) 80% done
 AVL node 100% done
 NEOM_Core actions (1-6) 90% done
 Solution (main class) 100% done

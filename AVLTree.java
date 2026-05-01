@@ -2,10 +2,7 @@ public class AVLTree {
     AVLNode root;
     int size;
     //the pdf suggests we will need more attributes
-    /*
-    TODO:
-    implement the 4 rotations 
-    run through the entire logic of the tree to see if it makes sense */
+    //run through the entire logic of the tree to see if it makes sense */
     public AVLTree() {
         root = null;
         size = 0;
@@ -13,7 +10,7 @@ public class AVLTree {
 
     //might need a helper class for balancing
     public void Insert(int sectorID) {
-        root = Insert(root, sectorID, 1);
+        root = Insert(root, sectorID);
         
     }       
 
@@ -36,8 +33,8 @@ public class AVLTree {
         return Balance(currentNode); 
     }
 
-    public void AVLNode Remove(int sectorID) {
-        Remove(root, sectorID);
+    public AVLNode Remove(int sectorID) {
+        return Remove(root, sectorID);
     }
     
     private AVLNode Remove(AVLNode currentNode, int sectorID) {
@@ -50,7 +47,7 @@ public class AVLTree {
         }
         else {
             if(currentNode.left == null) return currentNode.right;
-            if(currentNode.right == null) return currentNode`.left;
+            if(currentNode.right == null) return currentNode.left;
 
             AVLNode replacer = findMin(currentNode.right);
             currentNode.sectorID = replacer.sectorID;
@@ -58,11 +55,11 @@ public class AVLTree {
             currentNode.right = Remove(currentNode.right, replacer.sectorID);
 
             updateHeight(currentNode);
-
-            currentNode = Balance(currentNode);
             size--;
-            return currentNode;
         }
+        //I made a random change here, this might cause an error (I'm sleepy)
+        currentNode = Balance(currentNode);
+        return currentNode;
     }
 
     private AVLNode findMin(AVLNode node) {
@@ -84,25 +81,32 @@ public class AVLTree {
 
     //we will use LVR 
     public AVLNode Search(int sectorID) {
-        return Search(root, sectorID);
+        System.out.println("DEBUG Searching for sector " + sectorID);
+        System.out.println("DEBUG Number of sectors: " + size);
+        return Search(root, sectorID, 0);
     }
 
-    private AVLNode Search(AVLNode currentNode, int sectorID) {
-        if (currentNode == null) return null;
+    private AVLNode Search(AVLNode currentNode, int sectorID, int comparisons) {
+        if (currentNode == null) {
+            //I'm pretty sure printing here is considered bad practice but it's the simplest way to use the number of comparisons I could think of.
+            System.out.println("Sector " + sectorID + " not found after " + comparisons + " comparisons.");
+            return null;
+        }
 
         if(currentNode.sectorID == sectorID) {
+            System.out.println("Sector " + sectorID + " found after " + comparisons + " comparisons.");
             return currentNode;
         }
         if(currentNode.sectorID > sectorID) {
-            return Search(currentNode.left, sectorID);
+            return Search(currentNode.left, sectorID, comparisons + 1);
         }
         if(currentNode.sectorID < sectorID) {
-            return Search(currentNode.right, sectorID);
+            return Search(currentNode.right, sectorID, comparisons + 1);
         }
         return null; //I put this just in case but I think the first line does the same thing
     }
 
-    private void Traverse(AVLNode currentNode) {
+    public void Traverse(AVLNode currentNode) {
         if(currentNode == null) return;
         Traverse(currentNode.left);
         System.out.println(currentNode); 
@@ -139,7 +143,7 @@ public class AVLTree {
         return currentNode;
     }
     //this is for the leftleft and leftright cases
-    public TaskNode RotateTreeRight(AVLNode node) {
+    public AVLNode RotateTreeRight(AVLNode node) {
         AVLNode newRoot = node.left;
         node.left = newRoot.right;
         newRoot.right = node;
@@ -151,7 +155,7 @@ public class AVLTree {
     }
 
     //this is for the rightright and rightleft cases
-    public TaskNode RotateTreeLeft(AVLNode node) {
+    public AVLNode RotateTreeLeft(AVLNode node) {
         AVLNode newRoot = node.right;
         node.right = newRoot.left;
         newRoot.left = node;
@@ -162,10 +166,17 @@ public class AVLTree {
         return newRoot;
     }
     public TaskNode completeTask(TaskNode task) {
-        AVLNode sectorNode = search(task.sectorID);
+        AVLNode sectorNode = Search(task.sectorID);
         if(sectorNode != null) {
-            return sectorNode.tasks.completeTask(task);
+            return sectorNode.tasks.completeTask(task.taskID);
         }
+        return null;
+    }
+
+    @Override
+    public String toString() {
+        Traverse(root);
+        return null;
+    }
     }
     //The pdf suggests we may need more methods, there might be one in tasks
-}

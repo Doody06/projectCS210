@@ -1,0 +1,16 @@
+
+101, T_01, Install Solar Panels
+102, T_02, Weld Support Beams
+101, T_03, Paint North Wall
+103, T_04, Lay Fiber Cable
+105, T_05, Calibrate Sensor
+104, T_06, Inspect Drone Pad
+102, T_07, Secure Scaffolding
+103, T_08, Pour Concrete
+105, T_09, Install Smart Glass
+101, T_10, Run Diagnostics
+104, T_11, Purify Water
+102, T_12, Test Lighting
+103, T_13, Assemble Turbine
+105, T_14, Clean Array
+104, T_15, Update Firmware

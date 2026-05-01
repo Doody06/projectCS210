@@ -84,4 +84,14 @@ public void printQueue() {
             current = current.next;
         }
 } 
+
+// FIX: Required API wrapper.
+public void Enqueue(TaskNode node) {
+    enqueue(node);
+}
+
+// FIX: Required API wrapper.
+public TaskNode Dequeue() {
+    return dequeue();
+}
 }

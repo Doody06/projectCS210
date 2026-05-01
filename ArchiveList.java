@@ -41,5 +41,14 @@ public class ArchiveList {
             current = current.next;
         }
     } 
+// FIX: Required API wrapper.
+public void Append(TaskNode node) {
+    append(node);
+}
+
+// FIX: Required API wrapper.
+public void Traverse() {
+    printHistory();
+} 
 
 } 

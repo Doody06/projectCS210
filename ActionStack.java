@@ -46,4 +46,15 @@ public class ActionStack {
             current = current.next;
         }
     }
+
+    // FIX: Required API wrapper.
+public void Push(TaskNode node) {
+    push(node);
+}
+
+// FIX: Required API wrapper.
+public TaskNode Pop() {
+    return pop();
+} 
+
 }

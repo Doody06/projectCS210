@@ -8,7 +8,7 @@ public class AVLNode {
 
     public AVLNode(int sectorID) {
         this.sectorID = sectorID;
-        this.height = 0;
+        this.height = 1; // FIX: leaf node height should be 1 when null height is 0
         this.tasks = new SList();
         this.left = null;
         this.right = null;

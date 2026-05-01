@@ -32,34 +32,62 @@ public class AVLTree {
         return Balance(currentNode); 
     }
 
-    public AVLNode Remove(int sectorID) {
-        return Remove(root, sectorID);
-    }
-    
-    private AVLNode Remove(AVLNode currentNode, int sectorID) {
-        if(currentNode == null) return null;
-        if(currentNode.sectorID > sectorID) {
-            currentNode.left = Remove(currentNode.left, sectorID);
-        }
-        else if(currentNode.sectorID < sectorID) {
-            currentNode.right = Remove(currentNode.right, sectorID);
-        }
-        else {
-            if(currentNode.left == null) return currentNode.right;
-            if(currentNode.right == null) return currentNode.left;
+  public AVLNode Remove(int sectorID) {
+    // FIX: You must update root after removing.
+    root = Remove(root, sectorID);
+    return root;
+}
 
-            AVLNode replacer = findMin(currentNode.right);
-            currentNode.sectorID = replacer.sectorID;
-            currentNode.tasks = replacer.tasks;
-            currentNode.right = Remove(currentNode.right, replacer.sectorID);
-
-            updateHeight(currentNode);
-            size--;
-        }
-        //I made a random change here, this might cause an error (I'm sleepy)
-        currentNode = Balance(currentNode);
-        return currentNode;
+private AVLNode Remove(AVLNode currentNode, int sectorID) {
+    if (currentNode == null) {
+        return null;
     }
+
+    if (sectorID < currentNode.sectorID) {
+        currentNode.left = Remove(currentNode.left, sectorID);
+    } 
+    else if (sectorID > currentNode.sectorID) {
+        currentNode.right = Remove(currentNode.right, sectorID);
+    } 
+    else {
+        // FIX: Decrease size when the node is actually found.
+        size--;
+
+        // Case 1: no left child
+        if (currentNode.left == null) {
+            return currentNode.right;
+        }
+
+        // Case 2: no right child
+        if (currentNode.right == null) {
+            return currentNode.left;
+        }
+
+        // Case 3: two children
+        AVLNode replacer = findMin(currentNode.right);
+
+        currentNode.sectorID = replacer.sectorID;
+        currentNode.tasks = replacer.tasks;
+
+        // FIX: We already decreased size, so we need helper remove that does not decrease size again.
+        currentNode.right = removeMinNode(currentNode.right);
+    }
+
+    updateHeight(currentNode);
+    return Balance(currentNode);
+}
+
+// FIX: Helper method to remove the minimum node without changing size again.
+private AVLNode removeMinNode(AVLNode node) {
+    if (node.left == null) {
+        return node.right;
+    }
+
+    node.left = removeMinNode(node.left);
+
+    updateHeight(node);
+    return Balance(node);
+}
 
     private AVLNode findMin(AVLNode node) {
         while(node.left != null) {
@@ -84,25 +112,25 @@ public class AVLTree {
     }
 
     private AVLNode Search(AVLNode currentNode, int sectorID, int comparisons) {
-        if (currentNode == null) {
-            //I'm pretty sure printing here is considered bad practice but it's the simplest way to use the number of comparisons I could think of.
-            System.out.println("Sector " + sectorID + " not found after " + comparisons + " comparisons.");
-            return null;
-        }
-
-        if(currentNode.sectorID == sectorID) {
-            System.out.println("Sector " + sectorID + " found after " + comparisons + " comparisons.");
-            return currentNode;
-        }
-        if(currentNode.sectorID > sectorID) {
-            return Search(currentNode.left, sectorID, comparisons + 1);
-        }
-        if(currentNode.sectorID < sectorID) {
-            return Search(currentNode.right, sectorID, comparisons + 1);
-        }
-        return null; //I put this just in case but I think the first line does the same thing
+    if (currentNode == null) {
+        System.out.println("Sector " + sectorID + " not found after " + comparisons + " comparisons.");
+        return null;
     }
 
+    // FIX: Count this visited node as one comparison.
+    comparisons++;
+
+    if (currentNode.sectorID == sectorID) {
+        System.out.println("Sector " + sectorID + " found after " + comparisons + " comparisons.");
+        return currentNode;
+    }
+
+    if (sectorID < currentNode.sectorID) {
+        return Search(currentNode.left, sectorID, comparisons);
+    } else {
+        return Search(currentNode.right, sectorID, comparisons);
+    }
+}
     public void Traverse(AVLNode currentNode) {
         if(currentNode == null) return;
         Traverse(currentNode.left);
@@ -175,9 +203,9 @@ public class AVLTree {
     }
 
     @Override
-    public String toString() {
-        Traverse(root);
-        return null;
-    }
+public String toString() {
+    // FIX: toString should return text, not print and return null.
+    return "AVLTree size: " + size;
+}
     }
     //The pdf suggests we may need more methods, there might be one in tasks

@@ -55,8 +55,11 @@ public class Solution {
                 }
 
             } catch (Exception e) {
-                System.out.println("Error reading input.");
-            }
+    System.out.println("Error reading input.");
+
+    // FIX: clear the bad input so the scanner does not loop forever.
+    sc.nextLine();
+}
         }
     }
 
@@ -71,7 +74,8 @@ public class Solution {
                 if (line.trim().isEmpty()) continue;
 
                 // Format: sectorID, taskID, description
-                String[] parts = line.split(",");
+              // FIX: split only into 3 parts, so descriptions with commas will still work.
+String[] parts = line.split(",", 3);
 
                 if (parts.length < 3) {
                     System.out.println("Invalid file format.");

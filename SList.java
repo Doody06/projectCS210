@@ -87,4 +87,21 @@ public class SList {
         }
         return task;
     }
+    // FIX: Required API wrapper.
+public void Insert(TaskNode node) {
+    addLast(node);
+}
+
+// FIX: Required API wrapper.
+public TaskNode Remove(TaskNode node) {
+    if (node == null) {
+        return null;
+    }
+    return remove(node.taskID);
+}
+
+// FIX: Required API wrapper.
+public TaskNode Search(String taskID) {
+    return search(taskID);
+}
 }

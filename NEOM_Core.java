@@ -14,17 +14,16 @@ public class NEOM_Core {
     public void addTask(int sectorID, String taskID, String desc) {
         TaskNode newTask = new TaskNode(sectorID, taskID, desc, "Pending");
         //insert task into Node in AVL tree if it exists, else make the node and insert
-        if(sectors.Search(sectorID) == null) {
+        AVLNode sectorNode = sectors.Search(sectorID);
+        if(sectorNode == null) {
             sectors.Insert(sectorID);
-            sectors.Search(sectorID).tasks.addLast(newTask);
-        } else {
-            sectors.Search(sectorID).tasks.addLast(newTask);
+            sectorNode = sectors.Search(sectorID);
         }
+        sectorNode.tasks.addLast(newTask);
         //insert into Queue
         deployment.enqueue(newTask);
         //push onto the stack
         undoLog.push(newTask);
-        
     }
 
     public void processNextTask() {
@@ -37,13 +36,10 @@ public class NEOM_Core {
     }
 
     public void undoLastAction() {
-        //Pop the stack
         TaskNode removedTask = undoLog.pop();
-        //Remove the popped task from AVL tree and Queue
         sectors.Remove(removedTask.sectorID);
-        deployment.dequeue(); //WE MUST ASK THE DR. ABOUT THIS
-
-        //extra: Update log for undos as well
+        deployment.dequeue(); 
+        System.out.println("Undid task: " + removedTask);
     }
 
     public void systemAudit() {

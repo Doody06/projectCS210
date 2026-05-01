@@ -20,6 +20,7 @@ public class Solution {
                     case 1:
                         String filename = sc.next();
                         loadTasksFromFile(filename, system); //This method loads tasks AND calls addTask for each one of them.
+                        System.out.println("finished loading");
                         continue;
 
                     //Process Next Task
@@ -72,21 +73,25 @@ public class Solution {
                 // Format: sectorID, taskID, description
                 String[] parts = line.split(",");
 
-                if (parts.length < 3) continue;
-                else System.out.println("Invalid file format."); 
+                if (parts.length < 3) {
+                    System.out.println("Invalid file format.");
+                    continue;
+                } 
 
                 int sectorID = Integer.parseInt(parts[0].trim());
                 String taskID = parts[1].trim();
                 String desc = parts[2].trim();
 
+                System.out.println("adding task: " + sectorID + ", " + taskID + ", " + desc);
                 system.addTask(sectorID, taskID, desc); //we call Neom_Core here
             }
 
         } catch (IOException e) {
             System.out.println("File error: " + filename);
+            e.printStackTrace(); 
         } catch (Exception e) {
             System.out.println("Invalid file format.");
-        } finally { //I read that this block is not needed in new Java versions but kept it just in case.
+        } finally {//I read that this block is not needed in new Java versions but kept it just in case.
             try {
                 if (br != null) br.close();
             } catch (IOException e) {

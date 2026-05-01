@@ -14,21 +14,22 @@ public class SList {
     }
     //I think we can change its name to "Insert"
     public void addLast(TaskNode newNode) {
-     if (newNode == null) {
+        if (newNode == null) {
             return;
         }
         newNode.next = null;
-        if(head==null) {
+        if(head == null) {
             head = newNode;
         } else {
             TaskNode current = head;
-            while(current.next != null) {
+            // Traverse only up to current size to avoid following queue/stack links
+            // We needed to add this because an infinite loop was happening randomly when different data structures have the same next.
+            for(int i = 0; i < size && current.next != null; i++) {
                 current = current.next;
             }
             current.next = newNode;
         }
         size++;
-
     }
     public TaskNode search(String taskID) {
         TaskNode current = head;

@@ -22,11 +22,10 @@ public class AVLTree {
         }
         if(currentNode.sectorID > sectorID) {
             currentNode.left = Insert(currentNode.left, sectorID);
-        }
-        if(currentNode.sectorID < sectorID) {
+        } else if(currentNode.sectorID < sectorID) {
             currentNode.right = Insert(currentNode.right, sectorID);
-        }
-        if(currentNode.sectorID == sectorID) {
+        } else {
+            
             return currentNode;
         }
         updateHeight(currentNode);
@@ -81,8 +80,6 @@ public class AVLTree {
 
     //we will use LVR 
     public AVLNode Search(int sectorID) {
-        System.out.println("DEBUG Searching for sector " + sectorID);
-        System.out.println("DEBUG Number of sectors: " + size);
         return Search(root, sectorID, 0);
     }
 
@@ -114,29 +111,33 @@ public class AVLTree {
     }
 
     private AVLNode Balance(AVLNode currentNode) {
+        if(currentNode == null) return null;
+        
         int balanceFactor = returnHeight(currentNode.left) - returnHeight(currentNode.right);
         if(balanceFactor >= 2) {
+            if(currentNode.left == null) return currentNode;
+            
             int lowerBalanceFactor = returnHeight(currentNode.left.left) - returnHeight(currentNode.left.right);
-            if(lowerBalanceFactor <= -1) {
+            if(lowerBalanceFactor < 0) {
                 //leftright case
                 currentNode.left = RotateTreeLeft(currentNode.left);
                 return RotateTreeRight(currentNode);
-            }
-            if(lowerBalanceFactor >= 1) {
-                //leftleft case
+            } else {
+                //leftleft case 
                 return RotateTreeRight(currentNode);
             }
         }
 
         if(balanceFactor <= -2) {
+            if(currentNode.right == null) return currentNode;
+            
             int lowerBalanceFactor = returnHeight(currentNode.right.left) - returnHeight(currentNode.right.right);
-            if(lowerBalanceFactor <= -1) {
-                //rightright case
-                return RotateTreeLeft(currentNode);
-            }
-            if(lowerBalanceFactor >= 1) {
+            if(lowerBalanceFactor > 0) {
                 //rightleft case
                 currentNode.right = RotateTreeRight(currentNode.right);
+                return RotateTreeLeft(currentNode);
+            } else {
+                //rightright case 
                 return RotateTreeLeft(currentNode);
             }
         }

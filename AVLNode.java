@@ -9,7 +9,7 @@ public class AVLNode {
     public AVLNode(int sectorID) {
         this.sectorID = sectorID;
         this.height = 0;
-        this.tasks = null;
+        this.tasks = new SList();
         this.left = null;
         this.right = null;
     }

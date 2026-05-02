@@ -18,8 +18,4 @@ public class TaskNode {
                ", Status: " + status;
 
     }
-
- TaskNode sectorTask = new TaskNode(sectorID, taskID, description, "Pending");
-TaskNode queueTask = new TaskNode(sectorID, taskID, description, "Pending");
-TaskNode stackTask = new TaskNode(sectorID, taskID, description, "Pending");
 }
